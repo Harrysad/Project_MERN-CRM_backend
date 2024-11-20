@@ -54,7 +54,15 @@ module.exports = {
     update: (req, res) => {
         Customer.findByIdAndUpdate(req.params.id, req.body)
             .then((customer) => {
-                res.status(204);
+                if (!customer){
+                    return res.status(404)
+                    .json({
+                        message: "Customer not found"
+                    })
+                }
+                res.status(200).json({
+                    message: "Customer edited"
+                });
             })
             .catch((err) => {
                 res.status(500)
@@ -66,7 +74,15 @@ module.exports = {
     delete: (req, res) => {
         Customer.findByIdAndDelete(req.params.id)
         .then((customer) => {
-            res.status(204);
+            if (!customer){
+                return res.status(404)
+                .json({
+                    message: "Customer not found"
+                })
+            }
+            res.status(200).json({
+                message: "Customer deleted"
+            });
         })
         .catch((err) => {
             res.status(500)

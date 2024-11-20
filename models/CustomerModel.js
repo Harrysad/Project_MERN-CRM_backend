@@ -6,7 +6,9 @@ const Customer = new mongoose.Schema({
         street: { type: String, required:true},
         suite: { type: String, required:true},
         city: { type: String, required:true},
-        postcode: {type: String, required: true, unique: true},
+        postcode: {type: String, required: true},
     },
     nip: {type: String, required: true, unique: true}
-}) 
+});
+
+module.exports = mongoose.model('Customer', Customer);
