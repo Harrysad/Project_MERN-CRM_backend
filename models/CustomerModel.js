@@ -11,4 +11,5 @@ const Customer = new mongoose.Schema({
     nip: {type: String, required: true, unique: true}
 });
 
+ /* Dodanie exportu modelu Customera */   
 module.exports = mongoose.model('Customer', Customer);

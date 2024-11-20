@@ -51,14 +51,15 @@ module.exports = {
                 };
             });
     },
+    /* Dodanie przypadku aktualizowania Customera gdy nie istnieje, oraz wysłanie odpowiedniego kodu status wraz z widomością */
     update: (req, res) => {
         Customer.findByIdAndUpdate(req.params.id, req.body)
             .then((customer) => {
-                if (!customer){
+                if (!customer) {
                     return res.status(404)
-                    .json({
-                        message: "Customer not found"
-                    })
+                        .json({
+                            message: "Customer not found"
+                        })
                 }
                 res.status(200).json({
                     message: "Customer edited"
@@ -71,24 +72,25 @@ module.exports = {
                     })
             });
     },
+    /* Dodanie przypadku usuwania Customera gdy nie istnieje, oraz wysłanie odpowiedniego kodu status wraz z widomością */
     delete: (req, res) => {
         Customer.findByIdAndDelete(req.params.id)
-        .then((customer) => {
-            if (!customer){
-                return res.status(404)
-                .json({
-                    message: "Customer not found"
-                })
-            }
-            res.status(200).json({
-                message: "Customer deleted"
+            .then((customer) => {
+                if (!customer) {
+                    return res.status(404)
+                        .json({
+                            message: "Customer not found"
+                        })
+                }
+                res.status(200).json({
+                    message: "Customer deleted"
+                });
+            })
+            .catch((err) => {
+                res.status(500)
+                    .json({
+                        error: err
+                    })
             });
-        })
-        .catch((err) => {
-            res.status(500)
-                .json({
-                    error: err
-                })
-        });
     },
 };
