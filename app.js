@@ -1,22 +1,28 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const { connectDB } = require("./configs/config");
+
+const cookieParser = require("cookie-parser");
+const { connectDB } = require("./app/configs/config");
 const app = express();
 
 dotenv.config();
 
 connectDB();
 
-const customerRouter = require("./router/customerRouter");
-const actionRouter = require("./router/actionRouter");
+const customerRouter = require("./app/router/customerRouter");
+const actionRouter = require("./app/router/actionRouter");
+const authMiddleware = require("./app/middlewares/authMiddleware");
+const userRouter = require("./app/router/userRouter")
 
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(express.json());
 app.use(cors());
 
 /* Routes */
-app.use("/customers", customerRouter);
+app.use("/home", userRouter)
+app.use("/customers", authMiddleware, customerRouter);
 app.use("/actions", actionRouter);
 
 const PORT = process.env.PORT;
