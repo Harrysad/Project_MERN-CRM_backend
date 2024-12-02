@@ -37,7 +37,7 @@ User.pre("save", function (next) {
 });
 
 User.methods.generateAuthToken = (user) => {
-  const token = jwt.sign({ _id: user._id }, severtKey, { expiresIn: "1h" });
+  const token = jwt.sign({ _id: user._id }, "secretKey", { expiresIn: "1h" });
   return token;
 };
 

@@ -13,15 +13,25 @@ connectDB();
 const customerRouter = require("./app/router/customerRouter");
 const actionRouter = require("./app/router/actionRouter");
 const authMiddleware = require("./app/middlewares/authMiddleware");
-const userRouter = require("./app/router/userRouter")
+const userRouter = require("./app/router/userRouter");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true
+  })
+);
+
+app.use((req, _res, next) => {
+  console.log("All cookies: ", req.cookies);
+  next();
+});
 
 /* Routes */
-app.use("/home", userRouter)
+app.use("/auth", userRouter);
 app.use("/customers", authMiddleware, customerRouter);
 app.use("/actions", actionRouter);
 

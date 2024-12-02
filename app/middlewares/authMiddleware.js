@@ -1,14 +1,17 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
-  const token = req.header("Authorization");
+  console.log("Cookies: ", req.cookies.AuthToken);
+
+  const token = req.cookies.AuthToken;
   if (token) {
     try {
-      const veryfied = jwt.verify(token, "secretKey");
-
-      req.userId = veryfied._id;
+      const verified = jwt.verify(token, "secretKey");
+      console.log("Verified correctly: ", verified)
+      req.user = verified;
       next();
-    } catch {
+    } catch (err) {
+      console.error("Invalid token: ", err)
       res.status(400).json({
         message: "Invalid token",
       });

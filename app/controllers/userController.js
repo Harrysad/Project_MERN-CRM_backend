@@ -15,6 +15,7 @@ module.exports = {
       .catch((err) => {
         if (err === 11000) {
           res.status(409).json({
+            error: true,
             message: "User already exist.",
           });
         }
@@ -63,5 +64,8 @@ module.exports = {
           error: err,
         });
       });
+  },
+  logout: (_req, res) => {
+    res.clearCookie("AuthToken");
   },
 };
