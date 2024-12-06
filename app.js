@@ -32,7 +32,7 @@ app.use((req, _res, next) => {
 
 /* Routes */
 app.use("/auth", userRouter);
-app.use("/customers", authMiddleware, customerRouter);
+app.use("/customers", customerRouter);
 app.use("/actions", actionRouter);
 
 const PORT = process.env.PORT;
