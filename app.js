@@ -25,10 +25,10 @@ app.use(
   })
 );
 
-app.use((req, _res, next) => {
-  console.log("All cookies: ", req.cookies);
-  next();
-});
+// app.use((req, _res, next) => {
+//   console.log("All cookies: ", req.cookies);
+//   next();
+// });
 
 /* Routes */
 app.use("/auth", userRouter);

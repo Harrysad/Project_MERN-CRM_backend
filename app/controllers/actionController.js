@@ -2,6 +2,16 @@ const Action = require("../models/ActionModel");
 const Customer = require("../models/CustomerModel");
 
 module.exports = {
+  index: (req, res) => {
+    Action.find()
+    .populate('customer', 'name')
+    .then((actions) => {
+      res.status(200).json(actions)
+    })
+    .catch((err) => {
+      res.status(500).json({error: err})
+    })
+  },
   create: (req, res) => {
     const { customer } = req.body;
 
