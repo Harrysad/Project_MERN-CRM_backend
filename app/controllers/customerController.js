@@ -2,7 +2,7 @@ const Customer = require("../models/CustomerModel");
 
 module.exports = {
   index: (_req, res) => {
-    Customer.find()
+    Customer.find()//tu dodać paginację
       .lean()
       .then((customers) => {
         res.status(200).json(customers);

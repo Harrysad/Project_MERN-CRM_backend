@@ -32,8 +32,8 @@ app.use(
 
 /* Routes */
 app.use("/auth", userRouter);
-app.use("/customers", customerRouter);
-app.use("/actions", actionRouter);
+app.use("/customers", authMiddleware, customerRouter);
+app.use("/actions", authMiddleware, actionRouter);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
