@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
 const Action = new mongoose.Schema({
-  type: String,
+  type: {
+    type: String,
+    required: true,
+    enum: ["Telefon", "Spotkanie", "Mail", "Wideo rozmowa"],
+  },
   description: String,
   date: {
     type: Date,

@@ -1,11 +1,35 @@
 const Customer = require("../models/CustomerModel");
 
 module.exports = {
-  index: (_req, res) => {
-    Customer.find()//tu dodać paginację
-      .lean()
-      .then((customers) => {
-        res.status(200).json(customers);
+  index: (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const startIndex = (page - 1) * limit;
+
+    Customer.countDocuments()
+      .then((total) => {
+        Customer.find()
+          .skip(startIndex)
+          .limit(limit)
+          .lean()
+          .then((customers) => {
+            res.status(200).json({
+              page,
+              limit,
+              total,
+              pages: Math.ceil(total / limit),
+              dataCount: customers.length,
+              hasNextPage: page * limit < total,
+              hasPreviousPage: page > 1,
+              data: customers,
+            });
+          })
+          .catch((err) => {
+            res.status(500).json({
+              error: err,
+            });
+          });
       })
       .catch((err) => {
         res.status(500).json({
@@ -16,7 +40,7 @@ module.exports = {
   customer: (req, res) => {
     Customer.findById(req.params.id)
       .lean()
-      .populate('actions')
+      .populate("actions")
       .then((customer) => {
         res.status(200).json(customer);
       })
