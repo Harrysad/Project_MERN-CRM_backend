@@ -40,8 +40,8 @@ module.exports = {
   customer: (req, res) => {
     Customer.findById(req.params.id)
       .lean()
-      .populate("actions")
       .then((customer) => {
+        delete customer.actions;
         res.status(200).json(customer);
       })
       .catch(() => {
