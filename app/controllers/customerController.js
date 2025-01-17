@@ -4,12 +4,15 @@ module.exports = {
   index: (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
+    const sortField = req.query.sort || "name";
+    const sortOrder = req.query.order === "desc" ? -1 : 1;
 
     const startIndex = (page - 1) * limit;
 
     Customer.countDocuments()
       .then((total) => {
         Customer.find()
+        .sort({[sortField]: sortOrder})
           .skip(startIndex)
           .limit(limit)
           .lean()
