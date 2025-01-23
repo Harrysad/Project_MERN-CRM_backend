@@ -91,8 +91,9 @@ module.exports = {
         ).catch((err) => {
           res.status(err);
         });
-        res.status(204).json({
+        res.status(200).json({
           message: "Action deleted",
+          deleted: true,
         });
       })
       .catch((err) => {
